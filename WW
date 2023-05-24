@@ -1,0 +1,23 @@
+if (matrix_size(mtx) < elements)
+  {
+    const auto bytes = elements * sizeof(double);
+    if (bytes / sizeof(double) != elements)
+      return false; // Столько байт нельзя выделить.
+    // Попытаться расширить блок.
+    const auto data = (double*)std::realloc(mtx->data, bytes);
+    if (!data)
+      return false;
+
+    // Удалось расширить блок.
+    mtx->data = data;
+    mtx->rows = rows;
+    mtx->cols = cols;
+    return true;
+  }
+  else
+  {
+    mtx->rows = rows;
+    mtx->cols = cols;
+    return true;
+  }
+}
